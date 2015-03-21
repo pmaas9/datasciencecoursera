@@ -1,0 +1,12 @@
+base
+slidify
+knitr
+lattice
+ggplot2
+caret
+nnet
+survival
+gbm
+randomForest
+e1071
+rpart
