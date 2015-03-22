@@ -1,0 +1,102 @@
+# numbers from: 
+http://www.tobaccofreekids.org/research/factsheets/pdf/0099.pdf
+
+setwd("C:/Documents and Settings/maaspa.NIH/Desktop")
+data<-read.table("smoking.csv", sep=",")
+states<-data[,1]
+cost<-data[,2]
+
+#low number, high tax
+ranktax<-c(47,11,11,29,33,34,3,20,10,26,48,4,42,32,31,25,36,40,49,11,11,9,11,22,37,51, 16,38,35,18,6,19,1,45,46,27,30,28,20,2,42,23,39,24,16,7,50,5,44,8,40)
+
+#low number, low smoking
+rankhealth<-c(45,40,12,41,2,17,8,29,7,17,23,8,13,30,46,20,24,50,44,21,6,4,34,15,48,46,15,14,42,10,10,25,28,37,30,37,49,25,36,5,39,22,42,25,1,17,33,3,50,32,35)
+
+#correlation
+cor(ranktax, rankhealth)
+plot(ranktax, rankhealth, xlab="Cost Rank", ylab="Smoking Rank", pch=19, main="Smoking Rank by Pack Cost Rank") 
+cor(cost, rankhealth)
+
+plot(cost, rankhealth, xlab="Pack Cost", ylab="Smoking Rank", pch=19, main="Smoking Rank by Pack Cost") 
+#remove NY, Alaska
+index=c(1,seq(3,32), seq(34,51))
+cor(cost[index], rankhealth[index])
+a=summary(lm(rankhealth[index]~cost[index]))$coefficients[1,1]
+b=summary(lm(rankhealth[index]~cost[index]))$coefficients[2,1]
+lines(cost, a+b*cost)
+
+
+avecost<-mean(cost)
+hist(cost)
+
+perday<-1
+years<-1
+lots=perday*365*years*(1/20)*cost
+min(lots)
+max(lots)
+mean(lots)
+hist(lots)
+perday*365*years*(1/20)*avecost
+
+perweek<-6*20
+years<-1
+lots=perweek*(1/7)*365*years*(1/20)*cost
+min(lots)
+max(lots)
+mean(lots)
+hist(lots)
+perweek*(1/7)*365*years*(1/20)*avecost
+
+thestate="Minnesota"
+dollars=round(lots[which(states==thestate)],2)
+
+print(paste("Smoking", perday, "cigarettes per day for", years, "years in", thestate, "costs", dollars, "dollars."))
+
+
+#### Working Function ####
+number = number cigarettes or packs smoked
+years = number of years smoking
+state = state you live in, with quotes
+time = specified per "day" or "week", default "day"
+pack = 0/1, did you specify number in packs?
+#
+howmuch<-function(number, years, state, time="day", pack=0){
+thestate=state
+
+if(time=="day"){
+if(pack==1){
+perday=20*number
+}else{
+perday=number
+}
+lots=perday*365*years*(1/20)*cost
+dollars=round(lots[which(states==thestate)],2)
+if(pack==1){
+print(paste("Smoking", number, "packs per day for", years, "years in", thestate, "costs", dollars, "dollars."))
+}else{
+print(paste("Smoking", round(perday,1), "cigarettes per day for", years, "years in", thestate, "costs", dollars, "dollars."))
+}
+}
+if(time=="week"){
+
+if(pack==1){perweek=20*number}else{perweek=number}
+lots=perweek*(1/7)*365*years*(1/20)*cost
+dollars=round(lots[which(states==thestate)],2)
+if(pack==1){
+print(paste("Smoking", number, "packs per week for", years, "years in", thestate, "costs", dollars, "dollars."))
+}else{
+print(paste("Smoking", round(perweek,1), "cigarettes per week for", years, "years in", thestate, "costs", dollars, "dollars."))
+}
+}
+
+}
+
+#####
+
+
+
+
+
+
+
+
