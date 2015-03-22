@@ -1,0 +1,82 @@
+---
+title       : An Application to Calculate the Cost of Smoking by U.S. State
+subtitle    : 
+author      : "By: Coursera Student"
+job         : "Job: Data Scientist"
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : [bootstrap]            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## The Inspiration
+
+According to the Center for Disease Control, smoking "harms nearly every organ of the body" and "causes more than 480,000 deaths each year in the United States."*
+
+The harmful effects of smoking on health have been highly publicized; however, many individuals still choose to smoke.  
+
+Thus, it seems that for some people, health reasons alone are not a compelling enough reason to make the decision not to smoke.
+
+What about cost?  Perhaps if smokers had an easy way to calculate how much money they spend on cigarettes, they might be motivated to quit or reduce their smoking.
+
+This prompts the question: how much are smokers spending on cigarettes?
+
+*Reference:  
+http://www.cdc.gov/tobacco/data_statistics/fact_sheets/health_effects/effects_cig_smoking/
+
+--- .class #id 
+
+## The Goal
+My objective was to create an application that would easily calculate the total cost of cigarettes (including retail price and tax) based on the amount of smoking over a given period of time.
+
+## State-Specific Calculations
+The average costs differ substantially by state. For instance, on average the cost for a single pack in the state of New York, $10.29, is more than twice as much as a single pack in the state of Missouri, $4.41.
+
+Due to these substantial differences, it was important for my application to take the user's state into account when calculating smoking costs.
+
+## Flexible Functionality
+Currently, the application allows the user to specify the state where they live, the amount they smoke (in cigarettes or packs) over different units of time (in days or weeks), and the number of years smoked.  It then calculates the total retail cost of that amount of smoking.
+
+--- .class #id
+
+## The Data
+To create the application, I obtained data on smoking costs from Tobacco_Free_Kids.org http://www.tobaccofreekids.org/research/factsheets/pdf/0099.pdf
+
+Here is a snapshot of the data (along with the R code):
+```{r, echo=TRUE, eval=TRUE}
+## Load packages and datasets
+data<-read.table("smoking_updated_numbers.csv", sep=",")
+colnames(data)<-c("State", "Retail Cost")
+head(data)
+```
+```{r, echo=FALSE, eval=TRUE}
+source('smoking_code.R')
+```
+
+--- .class #id 
+
+## Possible Extensions
+
+(1) One possible extension to this application would be to include pictures of desirable items that cost the same as the total calculated smoking cost.
+
+For example, the application calculates that:
+```{r, echo=FALSE, eval=TRUE}
+how_much(number=10, pack=0, state="California", years=20)
+```
+Along with this information, we could include a picture of a new car! - one example of something awesome the person could afford if they did not use the money on smoking.
+
+(2) Another useful extenstion would be to expand the application to make cost calculations for other regions of the world! (not just the U.S.)
+
+An updated version of the application might incorporate pictures of alternative purchases that are appropriate and desirable in the particular region of the world.
+
+The possibilities are endless!
+
+
+
+
+
+
+
+

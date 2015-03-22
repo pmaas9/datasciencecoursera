@@ -4,7 +4,7 @@ shinyServer(
     
     output$response <- renderText({
     
-    if(is.numeric(input$user_number)==0){
+    if((is.numeric(input$user_number)==0)+(is.numeric(input$user_duration)==0)>0){
       response = "Please input numbers for quantity smoked and number of years smoking."      
     }
     else if( (input$user_number<=0) + (input$user_duration<=0) >0){
